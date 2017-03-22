@@ -1,0 +1,404 @@
+num examples: 86439
+training...
+
+EPOCH 1 ...
+training acurracy = 0.120
+Validation acurracy = 0.166
+
+EPOCH 2 ...
+training acurracy = 0.311
+Validation acurracy = 0.411
+
+EPOCH 3 ...
+training acurracy = 0.473
+Validation acurracy = 0.575
+
+EPOCH 4 ...
+training acurracy = 0.576
+Validation acurracy = 0.682
+
+EPOCH 5 ...
+training acurracy = 0.646
+Validation acurracy = 0.743
+
+EPOCH 6 ...
+training acurracy = 0.678
+Validation acurracy = 0.773
+
+EPOCH 7 ...
+training acurracy = 0.708
+Validation acurracy = 0.803
+
+EPOCH 8 ...
+training acurracy = 0.728
+Validation acurracy = 0.825
+
+EPOCH 9 ...
+training acurracy = 0.743
+Validation acurracy = 0.834
+
+EPOCH 10 ...
+training acurracy = 0.756
+Validation acurracy = 0.850
+
+EPOCH 11 ...
+training acurracy = 0.766
+Validation acurracy = 0.857
+
+EPOCH 12 ...
+training acurracy = 0.775
+Validation acurracy = 0.869
+
+EPOCH 13 ...
+training acurracy = 0.783
+Validation acurracy = 0.873
+
+EPOCH 14 ...
+training acurracy = 0.791
+Validation acurracy = 0.880
+
+EPOCH 15 ...
+training acurracy = 0.796
+Validation acurracy = 0.880
+
+EPOCH 16 ...
+training acurracy = 0.802
+Validation acurracy = 0.879
+
+EPOCH 17 ...
+training acurracy = 0.809
+Validation acurracy = 0.890
+
+EPOCH 18 ...
+training acurracy = 0.815
+Validation acurracy = 0.893
+
+EPOCH 19 ...
+training acurracy = 0.819
+Validation acurracy = 0.896
+
+EPOCH 20 ...
+training acurracy = 0.824
+Validation acurracy = 0.900
+
+EPOCH 21 ...
+training acurracy = 0.829
+Validation acurracy = 0.901
+
+EPOCH 22 ...
+training acurracy = 0.834
+Validation acurracy = 0.902
+
+EPOCH 23 ...
+training acurracy = 0.837
+Validation acurracy = 0.907
+
+EPOCH 24 ...
+training acurracy = 0.843
+Validation acurracy = 0.910
+
+EPOCH 25 ...
+training acurracy = 0.844
+Validation acurracy = 0.911
+
+EPOCH 26 ...
+training acurracy = 0.849
+Validation acurracy = 0.911
+
+EPOCH 27 ...
+training acurracy = 0.852
+Validation acurracy = 0.912
+
+EPOCH 28 ...
+training acurracy = 0.855
+Validation acurracy = 0.914
+
+EPOCH 29 ...
+training acurracy = 0.858
+Validation acurracy = 0.918
+
+EPOCH 30 ...
+training acurracy = 0.861
+Validation acurracy = 0.921
+
+EPOCH 31 ...
+training acurracy = 0.863
+Validation acurracy = 0.925
+
+EPOCH 32 ...
+training acurracy = 0.867
+Validation acurracy = 0.923
+
+EPOCH 33 ...
+training acurracy = 0.871
+Validation acurracy = 0.926
+
+EPOCH 34 ...
+training acurracy = 0.875
+Validation acurracy = 0.928
+
+EPOCH 35 ...
+training acurracy = 0.876
+Validation acurracy = 0.925
+
+EPOCH 36 ...
+training acurracy = 0.878
+Validation acurracy = 0.930
+
+EPOCH 37 ...
+training acurracy = 0.882
+Validation acurracy = 0.933
+
+EPOCH 38 ...
+training acurracy = 0.883
+Validation acurracy = 0.932
+
+EPOCH 39 ...
+training acurracy = 0.885
+Validation acurracy = 0.930
+
+EPOCH 40 ...
+training acurracy = 0.887
+Validation acurracy = 0.934
+
+EPOCH 41 ...
+training acurracy = 0.890
+Validation acurracy = 0.933
+
+EPOCH 42 ...
+training acurracy = 0.892
+Validation acurracy = 0.936
+
+EPOCH 43 ...
+training acurracy = 0.894
+Validation acurracy = 0.937
+
+EPOCH 44 ...
+training acurracy = 0.895
+Validation acurracy = 0.936
+
+EPOCH 45 ...
+training acurracy = 0.897
+Validation acurracy = 0.938
+
+EPOCH 46 ...
+training acurracy = 0.899
+Validation acurracy = 0.940
+
+EPOCH 47 ...
+training acurracy = 0.901
+Validation acurracy = 0.940
+
+EPOCH 48 ...
+training acurracy = 0.903
+Validation acurracy = 0.937
+
+EPOCH 49 ...
+training acurracy = 0.906
+Validation acurracy = 0.942
+
+EPOCH 50 ...
+training acurracy = 0.906
+Validation acurracy = 0.938
+
+EPOCH 51 ...
+training acurracy = 0.907
+Validation acurracy = 0.940
+
+EPOCH 52 ...
+training acurracy = 0.909
+Validation acurracy = 0.943
+
+EPOCH 53 ...
+training acurracy = 0.911
+Validation acurracy = 0.939
+
+EPOCH 54 ...
+training acurracy = 0.912
+Validation acurracy = 0.943
+
+EPOCH 55 ...
+training acurracy = 0.914
+Validation acurracy = 0.945
+
+EPOCH 56 ...
+training acurracy = 0.915
+Validation acurracy = 0.943
+
+EPOCH 57 ...
+training acurracy = 0.917
+Validation acurracy = 0.944
+
+EPOCH 58 ...
+training acurracy = 0.917
+Validation acurracy = 0.942
+
+EPOCH 59 ...
+training acurracy = 0.919
+Validation acurracy = 0.944
+
+EPOCH 60 ...
+training acurracy = 0.921
+Validation acurracy = 0.948
+
+EPOCH 61 ...
+training acurracy = 0.922
+Validation acurracy = 0.944
+
+EPOCH 62 ...
+training acurracy = 0.924
+Validation acurracy = 0.949
+
+EPOCH 63 ...
+training acurracy = 0.926
+Validation acurracy = 0.949
+
+EPOCH 64 ...
+training acurracy = 0.927
+Validation acurracy = 0.945
+
+EPOCH 65 ...
+training acurracy = 0.928
+Validation acurracy = 0.947
+
+EPOCH 66 ...
+training acurracy = 0.929
+Validation acurracy = 0.948
+
+EPOCH 67 ...
+training acurracy = 0.931
+Validation acurracy = 0.948
+
+EPOCH 68 ...
+training acurracy = 0.932
+Validation acurracy = 0.950
+
+EPOCH 69 ...
+training acurracy = 0.933
+Validation acurracy = 0.952
+
+EPOCH 70 ...
+training acurracy = 0.933
+Validation acurracy = 0.945
+
+EPOCH 71 ...
+training acurracy = 0.936
+Validation acurracy = 0.949
+
+EPOCH 72 ...
+training acurracy = 0.936
+Validation acurracy = 0.950
+
+EPOCH 73 ...
+training acurracy = 0.937
+Validation acurracy = 0.951
+
+EPOCH 74 ...
+training acurracy = 0.939
+Validation acurracy = 0.951
+
+EPOCH 75 ...
+training acurracy = 0.940
+Validation acurracy = 0.952
+
+EPOCH 76 ...
+training acurracy = 0.940
+Validation acurracy = 0.950
+
+EPOCH 77 ...
+training acurracy = 0.941
+Validation acurracy = 0.951
+
+EPOCH 78 ...
+training acurracy = 0.943
+Validation acurracy = 0.951
+
+EPOCH 79 ...
+training acurracy = 0.945
+Validation acurracy = 0.953
+
+EPOCH 80 ...
+training acurracy = 0.944
+Validation acurracy = 0.950
+
+EPOCH 81 ...
+training acurracy = 0.947
+Validation acurracy = 0.954
+
+EPOCH 82 ...
+training acurracy = 0.948
+Validation acurracy = 0.951
+
+EPOCH 83 ...
+training acurracy = 0.948
+Validation acurracy = 0.951
+
+EPOCH 84 ...
+training acurracy = 0.949
+Validation acurracy = 0.955
+
+EPOCH 85 ...
+training acurracy = 0.950
+Validation acurracy = 0.954
+
+EPOCH 86 ...
+training acurracy = 0.950
+Validation acurracy = 0.956
+
+EPOCH 87 ...
+training acurracy = 0.951
+Validation acurracy = 0.955
+
+EPOCH 88 ...
+training acurracy = 0.952
+Validation acurracy = 0.954
+
+EPOCH 89 ...
+training acurracy = 0.952
+Validation acurracy = 0.954
+
+EPOCH 90 ...
+training acurracy = 0.954
+Validation acurracy = 0.953
+
+EPOCH 91 ...
+training acurracy = 0.954
+Validation acurracy = 0.956
+
+EPOCH 92 ...
+training acurracy = 0.954
+Validation acurracy = 0.954
+
+EPOCH 93 ...
+training acurracy = 0.956
+Validation acurracy = 0.958
+
+EPOCH 94 ...
+training acurracy = 0.957
+Validation acurracy = 0.956
+
+EPOCH 95 ...
+training acurracy = 0.958
+Validation acurracy = 0.956
+
+EPOCH 96 ...
+training acurracy = 0.958
+Validation acurracy = 0.954
+
+EPOCH 97 ...
+training acurracy = 0.960
+Validation acurracy = 0.956
+
+EPOCH 98 ...
+training acurracy = 0.960
+Validation acurracy = 0.957
+
+EPOCH 99 ...
+training acurracy = 0.961
+Validation acurracy = 0.957
+
+EPOCH 100 ...
+training acurracy = 0.960
+Validation acurracy = 0.959
+
+Model Saved
