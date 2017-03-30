@@ -1,0 +1,2 @@
+model_checkpoint_path: "best_validation1.ckpt"
+all_model_checkpoint_paths: "best_validation1.ckpt"
