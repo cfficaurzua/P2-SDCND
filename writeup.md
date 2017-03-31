@@ -22,9 +22,11 @@ The goals of this project are the following:
 [image3]: ./images_report/augmentations_examples.png "Augmentations_examples"
 [image4]: ./images_report/augmented_data.png "Augmented_Data"
 [image5]: ./images_report/balanced_training_distribution.png "Balanced Training Distribution"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[image6]: ./images_report/Training_curve.png "training_curve"
+[image7]: ./raw_german_street/Capture8.png "street view"
+[image8]: ./raw_german_street/20170319_135216.jpg "shared dataset"
+[image9]: ./raw_german_street/20170319_134041.jpg "shared dataset"
+
 
 ---
 Here is the link to my [project code](https://github.com/cfficaurzua/P2-SDCND/blob/master/Traffic_Sign_Classifier.ipynb)
@@ -94,9 +96,11 @@ In photoshop the algorithm is presented as follows:
 	2. Apply a Highpass filter to the top layer
 	3. Apply a Linear light blend mode.
 
-I researched a little bit and find out that the highpass filter is a convolution of the image plus an offset of 0.5. Moreover, The linear light blending mode consists in a weighted sum between a linear dodge of the two stacked layers (A+B) , and a linear burn of the the two stacked layers (A+B)-1.
-linear light = W*(A+B)+(1-W)*((A+B)-1)
-Therefore the algorithm in python is the following:
+	I researched a little bit and find out that the highpass filter is a convolution of the image plus an offset of 0.5. Moreover, The linear light blending mode consists in a weighted sum between a linear dodge of the two stacked layers (A+B) , and a linear burn of the the two stacked layers (A+B)-1.
+	
+	Linear light = W*(A+B)+(1-W)*((A+B)-1)
+	
+	Therefore the algorithm in python is the following:
 
 	1. Apply a Highpass filter and store it in a variable h_pass
 	2. Apply a linear dodge with h_pass and the input image
@@ -107,18 +111,23 @@ Therefore the algorithm in python is the following:
 	7. Sum the two multiplication results.
 
  2. **Histogram equalization**:  Here a dynamic histogram equalization is perfomed in the intensity channel of the HSV colormap of the input image. I read that a lot of people were using the YUV map, but then read that the YUV colormap is optimized to the human eye perception field, due to the fact that machines don't have a biased perception field, I have chosen the HSV map. I opt for this technique, because some images were to dark and other were to bright, this method help to resolve that problem. The output returned is in HSV
+ 
  3. **Normalization**: I applied a normalization step to each channel of the input image. I chose to normalize the data because the training process develops better when the data has a low variance, the output range goes from 0.1 to 0.9.
+ 
  4. **Extract color information**: I researched that color doesn't contribute much to the final result in the trainning process, but for me, color is very important in traffic sign recognition, so I try to sum up the color information in a flat array. To do this, the input image is divided into *n* divisions and then a histogram is perfom in the hue channel of each division. the output is finally concatenated. This will be used as an input to the fully connected layer of the neural network.
  
 
 ## Model Architecutre
-3. Describe, and identify where in your code, what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
-The code for my final model is located in the seventh cell of the ipython notebook. 
-The model consisted in two inputs an Image of intensity values, and a array containing the normed histogram values from the Hue channel of the HSV image.
-For the first set of layers, each layer consisted in a sequence of a convolution, followed by a, Relu activation. followed by a Max pooling and finally a dropout. The output of each layer is then flattened and concatenated in conjuction with the second input.
-For the second set of layers, receive as an input the given 
-y final model consisted of the following layers:
+The code for my final model is located in the 18th cell of the ipython notebook. 
+
+The model consisted in two inputs: an Image of intensity values and an array containing the normed histogram values from the Hue channel of the HSV image.
+
+For the first set of layers, each layer consisted in a sequence of a convolution, followed by a, Relu activation, followed by a Max pooling and finally a dropout. The output of each layer is then flattened and concatenated in conjuction with the second input.
+
+For the second set of layers, receives, as an input, the given flattened array. 
+
+The structure is summed up in the next table.
 
 |TAG  	| Layer   		|Input 			|     Description					| 
 |:-----:|:---------------------:|:---------------------:|:-----------------------------------------------------:|
@@ -143,58 +152,61 @@ y final model consisted of the following layers:
 | logits| Fully Connected Layer	|L4.1			|3680x1024-						|
 
 
-
 ## Model Training
- Describe how, and identify where in your code, you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
-The code for training the model is located in the eigth cell of the ipython notebook. 
-
-To train the model, I used an adam optimizer with cross entropy,
+To train the model, I used an adam optimizer with cross entropy and L2 regularization,
 the parameters chosen are as follows:
-|Parameter					| Value   |
-|:-----:|:-----------------:|
-| Epochs| 35|
-| batch size| 150|
-| learning rate| 0.001|
 
-The weights were initialized with a normal truncated distribution, with *μ = 0* and *σ = 0.1*.
+|Parameter 	| Value 	| Function 		|
+|:-------------:|:-------------:|:---------------------:|
+| μ (mu)	| 0		|weights Initialization	|
+| σ (sigma)	| 0.1		|weights Initialization	|
+| Epochs	| 35		|Training		|
+| Batch size	| 150		|Training		|
+| learning rate	| 0.001		|Training		|
+| β (beta)	| 0.01		|L2 regularization	|
+
 The bias terms were all initialized as zeros.
 
-####5. Describe the approach taken for finding a solution. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
-
+## Results and discussion
 The code for calculating the accuracy of the model is located in the ninth cell of the Ipython notebook.
 
+First I run the lenet model, and get about 86% of val accuracy, I chose this one as a starting point, because is was the only one that I knew and have already practice with it. 
+Following up, I started to change some hyper parameters, In order to improve my result, but i couldn't achieve more than 90%, although, training the lenet model was way more faster than any other architecture I tested on.
+Next I added more features to each layer, the result improve a little bit, but the training slowed down quite a lot. I added dropout to every layer with keep probabilities ranges between .5 and .95. Then, I try to adjust my model to the one posted by our classmate Alex Staravoitau [here](http://navoshta.com/traffic-signs-classification/). concatenating every relu activation output from the convolutional layers and insert it into the fully connected layers. Alex's publication concludes that the model might improve if some color information is added up. so I resume all color infor in Hue channel's histogram of the HSV color map and introduced it directly to the net in the fully connected layers.
+Even though I included dropout, I was still getting some overfitting finally I achieve equal results in the training and validation set by lowering down the keep probability in the fully connected layer to .1 and put L2 regularization in both fully connected layers.
+Sometines when I use keep probabilities too low, it failed completely to train. getting results as low as 0.2%.
+At first I started to train with 10 EPOCHS, then as I moved from my local pc to an AWS gpu service I increase the EPOCHS to 100. Finally as I achieved that the training occur a little faster, threrefore I reduced the number of epochs to 35.
+The final result took around ~60-90 min to train. + ~20 minutes to augment the dataset and ~10 to preprocess the data.
+
+Througout the project the best results I recordered individually for every set were:
+
+* training set accuracy of 100.0
+* validation set accuracy of 98.6
+* test set accuracy of 97.3
+
 My final model results were:
-* training set accuracy of 99.3
+* training set accuracy of 98.0
 * validation set accuracy of 98.5
-* test set accuracy of 96.6
+* test set accuracy of 96.2
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to over fitting or under fitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
+![alt text][image6]
 
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
+cyan: training
+orange: validation
 
-##Test a Model on New Images
+## Test a Model on New Images
 
-I download a set of images from google street view, particularly from the intersection between untermainbrücke and mainkai in frankfurt, germany. Also I append to the set some pictures shared by our classmate Sonja Krause-Harder. 
+I download a set of images from google street view, particularly from the intersection between untermainbrücke and mainkai in frankfurt, germany. I also append to the set,some pictures shared by our classmate Sonja Krause-Harder. 
 Here are some of the pictures taken:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![alt text][image7] ![alt text][image8] 
 
 Then I cropped out 40 traffic signs. 
 
-There are a couple of image I found peculiar and hard to identify.
+There are a couple of images that I found peculiar and hard to identify.
 the first one comes from this picture:
-![alt text][image6] 
+![alt text][image9] 
 
 As shown above, there are two signs of children crossing, but one is the flipped version of the official Sign. the training set, test set and validation set don't have any flipped version of the children crossing sign. therefore the model is prone to make a mistake here.
 
@@ -210,13 +222,13 @@ The code for making predictions on my final model is located in the tenth cell o
 
 Here are the results of the prediction:
 
-| Image			        |     Prediction	        					| 
+| Image			        |     Prediction	        	| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Stop Sign      		| Stop sign   				| 
+| U-turn     			| U-turn 				|
+| Yield				| Yield					|
+| 100 km/h	      		| Bumpy Road				|
+| Slippery Road			| Slippery Road      			|
 
 
 The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
@@ -227,13 +239,13 @@ The code for making predictions on my final model is located in the 11th cell of
 
 For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
 
-| Probability         	|     Prediction	        					| 
+| Probability         	|     Prediction	        		| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| .60       		| Stop sign   					| 
+| .20     		| U-turn 					|
+| .05			| Yield						|
+| .04	      		| Bumpy Road					|
+| .01			| Slippery Road      				|
 
 
 For the second image ... 
