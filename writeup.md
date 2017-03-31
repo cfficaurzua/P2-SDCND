@@ -26,6 +26,7 @@ The goals of this project are the following:
 [image7]: ./raw_german_street/Capture8.png "street view"
 [image8]: ./raw_german_street/20170319_135216.jpg "shared dataset"
 [image9]: ./raw_german_street/20170319_134041.jpg "shared dataset"
+[image9]: ./raw_german_street/20170319_135255.jpg "shared dataset"
 
 
 ---
@@ -211,10 +212,11 @@ the first one comes from this picture:
 As shown above, there are two signs of children crossing, but one is the flipped version of the official Sign. the training set, test set and validation set don't have any flipped version of the children crossing sign. therefore the model is prone to make a mistake here.
 
 The second image is the following:
+![alt text][image10]
 
 In this image, I don't even understand what does it mean, for me, it looks like a double negation no entry Sign, the interesting thing is that if you look at the center there is a Yield sign within the original Traffic Sign, so definitely the program will have troubles there.
 
-###Model's Predictions
+### Model's Predictions
 
 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. Identify where in your code predictions were made. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
@@ -229,7 +231,6 @@ Here are the results of the prediction:
 | Yield				| Yield					|
 | 100 km/h	      		| Bumpy Road				|
 | Slippery Road			| Slippery Road      			|
-
 
 The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
 
