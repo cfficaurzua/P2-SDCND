@@ -1,7 +1,10 @@
 ﻿# **Traffic Sign Recognition** 
----
 
 **Build a Traffic Sign Recognition Project**
+
+Here is the link to my [project code](https://github.com/cfficaurzua/P2-SDCND/blob/master/Traffic_Sign_Classifier.ipynb)
+
+---
 
 [TOC]
  
@@ -22,14 +25,15 @@ The goals of this project are the following:
 [image3]: ./images_report/augmentations_examples.png "Augmentations_examples"
 [image4]: ./images_report/augmented_data.png "Augmented_Data"
 [image5]: ./images_report/balanced_training_distribution.png "Balanced Training Distribution"
-[image6]: ./images_report/Training_curve.png "training_curve"
-[image7]: ./raw_german_street/Capture8.png "street view"
+[image6]: ./images_report/training_curve.PNG "training_curve"
+[image7]: ./raw_german_street/Capture8.PNG "street view"
 [image8]: ./raw_german_street/20170319_135216.jpg "shared dataset"
 [image9]: ./raw_german_street/20170319_134041.jpg "shared dataset"
+[image10]: ./raw_german_street/20170319_135255.jpg "shared dataset"
 
 
 ---
-Here is the link to my [project code](https://github.com/cfficaurzua/P2-SDCND/blob/master/Traffic_Sign_Classifier.ipynb)
+
 
 ## Data Set Summary
 
@@ -48,7 +52,7 @@ I used the *shape* method embedded in the numpy library, in order to get the siz
 The code for this step is contained in the 4th code cell of the IPython notebook.  
 
 To understand the distribution of the training dataset, I plotted a bar graph using the *matplotlib.pyplot* library.
-at first glance, it can be noticed that some classes have a great amount of examples (~2000 examples) compared to others than have as few as  ~100 examples. this biased situation will induce a high probability of answering right in the training set if the neural network chooses the bigger classes, but this will not occur in any other set, leading to an overfit.
+At first glance, it can be noticed that some classes have a great amount of examples (~2000 examples) compared to others than have as few as  ~100 examples. this biased situation will induce a high probability of answering right in the training set if the neural network chooses the bigger classes, but this will not occur in any other set, leading to an overfit.
 
 ![alt text][image1]
 
@@ -206,17 +210,18 @@ Then I cropped out 40 traffic signs.
 
 There are a couple of images that I found peculiar and hard to identify.
 the first one comes from this picture:
+
 ![alt text][image9] 
 
-As shown above, there are two signs of children crossing, but one is the flipped version of the official Sign. the training set, test set and validation set don't have any flipped version of the children crossing sign. therefore the model is prone to make a mistake here.
+As shown above, there are two signs of children crossing, but one is the flipped version of the official Sign. Neither the training set, test set nor validation set have any flipped version of the children crossing sign. therefore the model is prone to make a mistake here.
 
 The second image is the following:
 
+![alt text][image10]
+
 In this image, I don't even understand what does it mean, for me, it looks like a double negation no entry Sign, the interesting thing is that if you look at the center there is a Yield sign within the original Traffic Sign, so definitely the program will have troubles there.
 
-###Model's Predictions
-
-2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. Identify where in your code predictions were made. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
+### Model's Predictions
 
 The code for making predictions on my final model is located in the tenth cell of the Ipython notebook.
 
@@ -229,7 +234,6 @@ Here are the results of the prediction:
 | Yield				| Yield					|
 | 100 km/h	      		| Bumpy Road				|
 | Slippery Road			| Slippery Road      			|
-
 
 The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
 
