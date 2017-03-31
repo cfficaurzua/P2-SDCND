@@ -1,4 +1,4 @@
-# **Traffic Sign Recognition** 
+﻿# **Traffic Sign Recognition** 
 ---
 
 **Build a Traffic Sign Recognition Project**
@@ -19,9 +19,9 @@ The goals of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./images_report/training_distribution.png "Training Distribution"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
+[image2]: ./images_report/raw_visualization.png "Raw_visualization"
+[image3]: ./images_report/augmentations_examples.png "Augmentations_examples"
+[image4]: ./images_report/augmented_data.png "Augmented_Data"
 [image5]: ./examples/placeholder.png "Traffic Sign 2"
 [image6]: ./examples/placeholder.png "Traffic Sign 3"
 [image7]: ./examples/placeholder.png "Traffic Sign 4"
@@ -32,7 +32,7 @@ Here is the link to my [project code](https://github.com/cfficaurzua/P2-SDCND/bl
 
 ## Data Set Summary
 
-The code for this step is contained in the second code cell of the IPython notebook.  
+The code for this step is contained in the 2nd code cell of the IPython notebook.  
 
 I used the *shape* method embedded in the numpy library, in order to get the sizes corresponding to the training set, test set and validation set. To get the number of classes, I used *pandas*, reading  the *signnames.csv* file and from there, extract the quantity of classes using the aforementioned *shape* function.
 
@@ -40,37 +40,46 @@ I used the *shape* method embedded in the numpy library, in order to get the siz
 * The size of test set is 12630
 * The shape of a traffic sign image is (32, 32,3)
 * The number of unique classes/labels in the data set is 43
+---
 
-##Data Set Visualization
+## Data Set Visualization
 
-The code for this step is contained in the third code cell of the IPython notebook.  
+The code for this step is contained in the 4th code cell of the IPython notebook.  
 
 To understand the distribution of the training dataset, I plotted a bar graph using the *matplotlib.pyplot* library.
-at first glance, it can be noticed that some classes have a great amount of examples (~2000 examples) compared to others than have as few as  ~100 examples. this biased situation will induce a high probability of answering right in the training set if the neural network choses the bigger classes, but this will not occur in any other set, leading to an overfit.
+at first glance, it can be noticed that some classes have a great amount of examples (~2000 examples) compared to others than have as few as  ~100 examples. this biased situation will induce a high probability of answering right in the training set if the neural network chooses the bigger classes, but this will not occur in any other set, leading to an overfit.
 
 ![alt text][image1]
 
-Then, I decided to look into the training set to get an insight of the quality of the pictures, besides any other interesting feature that may appear. To visualize the training set, I created a function that plots a grid of the giving set, with a configurable size, choosing random examples within each class.
+Then, I decided to take a look into the training set, to get an insight of the quality of the pictures, besides any other interesting feature that may appear. To visualize the training set, I created a function that plots a grid of the giving set, with a configurable size, choosing random examples within each class.
 
-![alt text][image1]
+![alt text][image2]
+---
+## Data Augmentation
 
-##Data Augmentation
+The code for this step is contained in the 7th code cell of the IPython notebook.  
 
-Since, the dataset was unbalanced, data augmentation is needed. In order to achive augmenting the data, I wrote a set of functions, each of then distort the input picture in someway and return a different image of the same traffic sign.
+Since, the dataset was unbalanced, data augmentation is needed. In order to achive augmenting the data, I wrote a set of function. Each of them distort the input picture in someway and return a different image of the same traffic sign.
+
 The functions are detailed bellow:
 
-* **Transform augmentation:** Makes an affine transform using random shear, rotation factors within a normal distribution with a *μ = 0* and *σ = 0.1*, This will return an rotated and/or squeezed image.
-* **Perspective augmentation:** Return the same image, but tweaked in such way that it would appear being looked either from above or below or from the right or left side, as if the perspective would have been changed. To achive this trasformation, I took two adjacent vertice points of the input image and move them closer together by a factor of *d*, and move the two vertice points left  far apart by the same distance.
-To perform the actual transformation I use the openCV library. 
-* **Destroy augmentation:**  Return the same image but with n random pixeles substituted by the median of the image.
-* **Enhance augmentation:** Adjust randomly the brightness or the contrast of the image using the *Contrast*and *Brightness* fucntions from the *PIL.ImageEnhance* library-
-* **Flip augmentation:** Return a horizontal, vertical and horizontal then vertical flipped version of the input image, but first checks if the flip action can be done, looking at the label of the input. This means that certain traffic can't be flipped, e.g: *Road Work Sign*; others can be flipped only vertically, e.g: *Speed limit (80km/h)*; finally there are Traffic Sings that can be flipped horizontally and then vertically, e.g: *End of all speed and passing limits*.
+* **Transform augmentation:** Makes an affine transform using random shear and rotation factors within a normal distribution using *μ = 0* and *σ = 0.1*, This will return an rotated and/or skeewed image.
+* **Perspective augmentation:** Return the same image, but tweaked in such way that it would appear as being looked either from above or below or from the right or the left side, as if the perspective would have been changed. To achive this trasformation, I took two adjacent vertices of the input image and moved them closer together by a factor of *d*, and moved the two vertices left far apart by the same distance. To perform the actual transformation I use the openCV library. 
+* **Destroy augmentation:**  Return the same image but with *n* random pixeles substituted by the median of the image, this destroy a great percentage of the picture, making it harder to recognize, as a human being one tends to squint, in order to be able to recognize the picture, looking for the general features instead of details, I hope that the machine would be able to do the same.
+* **Enhance augmentation:** Adjust randomly the brightness or the contrast of the image using the *Contrast*and *Brightness* fucntions from the *PIL.ImageEnhance* library.
+* **Flip augmentation:** Return a horizontal, vertical and horizontal then vertical flipped version of the input image, but first checks if the flip action can be done by looking at the label of the input. This means that certain traffic sings can't be flipped, e.g: *Road Work Sign*; others can be flipped only vertically, e.g: *Speed limit (80km/h)*; finally there are Traffic Sings that can be flipped horizontally and then vertically, e.g: *End of all speed and passing limits*.
+
+Here are some examples of what each function return.
+
+![alt text][image3]
+
+
 
 The augmentation process (augment_data function) consists in randomly applying one of this functions to a random image from the training set, until each class, has been extended in a fix length (4000).
 Then the data is balanced choosing random images from the returned set from the previous function until each class has a fix length (4000) .
 
 Visualizing the new dataset:
-![alt text][image1]
+![alt text][image3]
 
 Following these two processes I get a nicer and bigger dataset distribution as shown bellow:
 
