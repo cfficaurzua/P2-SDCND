@@ -1,14 +1,13 @@
 #**Traffic Sign Recognition** 
-
-##Writeup Template
-
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
 ---
 
 **Build a Traffic Sign Recognition Project**
 
-The goals / steps of this project are the following:
+[TOC]
+ 
+##Goals
+The goals  of this project are the following:
+
 * Load the data set (see below for links to the project data set)
 * Explore, summarize and visualize the data set
 * Design, train and test a model architecture
@@ -28,103 +27,140 @@ The goals / steps of this project are the following:
 [image7]: ./examples/placeholder.png "Traffic Sign 4"
 [image8]: ./examples/placeholder.png "Traffic Sign 5"
 
-## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
-
 ---
-###Writeup / README
-
-####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
-
 You're reading it! and here is a link to my [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
 
-###Data Set Summary & Exploration
-
-####1. Provide a basic summary of the data set and identify where in your code the summary was done. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
+##Data Set Summary
 
 The code for this step is contained in the second code cell of the IPython notebook.  
 
-I used the pandas library to calculate summary statistics of the traffic
-signs data set:
+I used the *shape* method embedded in the numpy library, in order to get the sizes corresponding to the training set, test set and validation set. To get the number of classes, I used pandas, reading  the *signnames.csv* file and from there, extract the quantity of classes using the aforementioned *shape* function.
 
-* The size of training set is ?
-* The size of test set is ?
-* The shape of a traffic sign image is ?
-* The number of unique classes/labels in the data set is ?
+* The size of training set is 34799
+* The size of test set is 12630
+* The shape of a traffic sign image is (32, 32,3)
+* The number of unique classes/labels in the data set is 43
 
-####2. Include an exploratory visualization of the dataset and identify where the code is in your code file.
+##Data Set Visualization
 
 The code for this step is contained in the third code cell of the IPython notebook.  
 
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
+To understand the distribution of the training dataset, I plotted a bar graph using the *matplotlib.pyplot* library.
+at first glance, it can be noticed that some classes have a great amount of examples (~2000 examples) compared to others than have as few as  ~100 examples. this biased situation will induce a high probability of answering right in the training set if the neural network choses the bigger classes, but this will not occur in any other set, leading to an overfit.
 
 ![alt text][image1]
 
-###Design and Test a Model Architecture
+Then, I decided to look into the training set to get an insight of the quality of the pictures, besides any other interesting feature that may appear. To visualize the training set, I created a function that plots a grid of the giving set, with a configurable size, choosing random examples within each class.
 
-####1. Describe how, and identify where in your code, you preprocessed the image data. What tecniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc.
+![alt text][image1]
 
-The code for this step is contained in the fourth code cell of the IPython notebook.
+##Data Augmentation
 
-As a first step, I decided to convert the images to grayscale because ...
+Since, the dataset was unbalanced, data augmentation is needed. In order to achive augmenting the data, I wrote a set of functions, each of then distort the input picture in someway and return a different image of the same traffic sign.
+The functions are detailed bellow:
 
-Here is an example of a traffic sign image before and after grayscaling.
+* **Transform augmentation:** Makes an affine transform using random shear, rotation factors within a normal distribution with a *μ = 0* and *σ = 0.1*, This will return an rotated and/or squeezed image.
+* **Perspective augmentation:** Return the same image, but tweaked in such way that it would appear being looked either from above or below or from the right or left side, as if the perspective would have been changed. To achive this trasformation, I took two adjacent vertice points of the input image and move them closer together by a factor of *d*, and move the two vertice points left  far apart by the same distance.
+To perform the actual transformation I use the openCV library. 
+* **Destroy augmentation:**  Return the same image but with n random pixeles substituted by the median of the image.
+* **Enhance augmentation:** Adjust randomly the brightness or the contrast of the image using the *Contrast*and *Brightness* fucntions from the *PIL.ImageEnhance* library-
+* **Flip augmentation:** Return a horizontal, vertical and horizontal then vertical flipped version of the input image, but first checks if the flip action can be done, looking at the label of the input. This means that certain traffic can't be flipped, e.g: *Road Work Sign*; others can be flipped only vertically, e.g: *Speed limit (80km/h)*; finally there are Traffic Sings that can be flipped horizontally and then vertically, e.g: *End of all speed and passing limits*.
 
-![alt text][image2]
+The augmentation process (augment_data function) consists in randomly applying one of this functions to a random image from the training set, until each class, has been extended in a fix length (4000).
+Then the data is balanced choosing random images from the returned set from the previous function until each class has a fix length (4000) .
 
-As a last step, I normalized the image data because ...
+Visualizing the new dataset:
+![alt text][image1]
 
-####2. Describe how, and identify where in your code, you set up training, validation and testing data. How much data was in each set? Explain what techniques were used to split the data into these sets. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, identify where in your code, and provide example images of the additional data)
+Following these two processes I get a nicer and bigger dataset distribution as shown bellow:
 
-The code for splitting the data into training and validation sets is contained in the fifth code cell of the IPython notebook.  
-
-To cross validate my model, I randomly split the training data into a training set and validation set. I did this by ...
-
-My final training set had X number of images. My validation set and test set had Y and Z number of images.
-
-The sixth code cell of the IPython notebook contains the code for augmenting the data set. I decided to generate additional data because ... To add more data to the the data set, I used the following techniques because ... 
-
-Here is an example of an original image and an augmented image:
-
-![alt text][image3]
-
-The difference between the original data set and the augmented data set is the following ... 
+![alt text][image1]
 
 
-####3. Describe, and identify where in your code, what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
+##Preprocessing
+In order to preprocess the data, the following sequence is applied:
 
-The code for my final model is located in the seventh cell of the ipython notebook. 
+ 1. **Enhance**: This step consists in enhance the details of a given image, I tried to copy the algorithm I usually used in Photoshop when I want to sharpen the edges without distorting the image.
+In photoshop the algorithm is presented as follows:
 
-My final model consisted of the following layers:
+	1. Duplicate the image in a different layer on top of the current one.
+	2. Apply a Highpass filter to the top layer
+	3. Apply a Linear light blend mode.
 
-| Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
-| RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
+I researched a little bit and find out that the  highpass filter is a is a convolution of the image plus an offset of 0.5. Also, The linear light blending mode consists in a weighted sum between a linear_dodge of the two stacked layers (A+B) , and a linear burn of the the two stacked layers (A+B)-1.
+linear light = W*(A+B)+(1-W)*((A+B)-1)
+Therefore the algorithm in python is the following:
+
+	1. Apply a Highpass filter and store it in a variable h_pass
+	2. Apply a linear dodge with h_pass and the input image
+	3. Apply a linear burn with h_pass and the input image
+	4. Normalize the image to get the weights
+	5. Multiply the linear dodge result with the weights
+	6. Multiply the linear_burn results with the inverse of the weights
+	7. Sum the two multiplication results.
+
+ 2. **Histogram equalization**:  Here a dynamic histogram equalization is perfomed in the intensity channel of the HSV colormap of the input image. I read that lot of people were using the YUV map, but then read that the YUV colormap is optimized to the human eye perception field, due to the fact that machines don't have a biased perceptionfield I chose the HSV map. I chose this technique, because some images were to dark and other were to bright, this method help to resolve that problem. The output returned is in HSV
+ 3. **Normalization**: I applied a normalization step to each channel of the input image. I chose to normalize the data because the training process develops better when the data has a low variance and is centered in 0.
+ 4. **Extract color information**: I researched that color doesn't contribute much to the final result in the trainning process, but for me, color is very important in traffic sign recognition, so I try to sum up the color information in a flat array. To do this, the input image is divided into n divisions and then a histogram is perfom in the hue channel of each division. the output is then concatenated. This will be used as an input to the fully connected layer of the neural network.
  
 
+## Model Architecutre
+3. Describe, and identify where in your code, what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
-####4. Describe how, and identify where in your code, you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
+The code for my final model is located in the seventh cell of the ipython notebook. 
+The model consisted in two inputs an Image of intensity values, and a array containing the normed histogram values from the Hue channel of the HSV image.
+For the first set of layers, each layer consisted in a sequence of a convolution, followed by a, Relu activation. followed by a Max pooling and finally a dropout. The output of each layer is then flattened and concatenated in conjuction with the second input.
+For the second set of layers, receive as an input the given 
+y final model consisted of the following layers:
+
+|TAG  						| Layer   |Input 				  	|     Description		| 
+|:-----:|:-----------------:|:-------:|:-----------------------:|:---------------------:|
+| I1	| Input         	|-		| 32x32x1 V channel of HSV image	 				|
+| I2 	| Input         	|-		| 1x96 Histogram Color Information					|  
+| L1.1	| Convolution 5x5 	|I1		| 1x1 stride, same padding, outputs 32x32x32		|
+| L1.2  | RELU				|L1.1	|-													|
+| L1.3  | Max pooling		|L1.2	| 2x2 stride,  outputs 16x16x32						|
+| L1.4  | Dropout			|L1.3	|keep probability = 0.9								|
+| L2.1  | Convolution 5x5  	|L1.4	| 1x1 stride, same padding, outputs 16x16x64 		|
+| l2.2  | RELU				|L2.1	|													|
+| l2.3  | Max pooling	    |L2.2	| 2x2 stride,  outputs 16x16x32						|
+| l2.4  | Dropout			|L2.3	|keep probability = 0.8								|
+| l3.1  | Convolution 5x5 	|L2.4	| 1x1 stride, same padding, outputs 16x16x64 		|
+| l3.2 	| RELU				|L3.1	|-													|
+| l3.3  | Max pooling	    |L3.2 	| 2x2 stride,  outputs 16x16x32						|
+| l3.4	| Dropout			|L3.2	|keep probability = 0.5								|
+| l4.1	| Concatenate		|L1.4, l2.4,l3.4, I2	|-									|
+| l4.2	| Fully Connected Layer|L4.1|3680x1024-											|
+| l4.3  | RELU				|L2.1	|													|
+| l4.4	| Dropout			|L3.2	|keep probability = 0.1								|
+| logits| Fully Connected Layer|L4.1|3680x1024-											|
+
+
+
+## Model Training
+ Describe how, and identify where in your code, you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
 The code for training the model is located in the eigth cell of the ipython notebook. 
 
-To train the model, I used an ....
+To train the model, I used an adam optimizer with cross entropy,
+the parameters chosen are as follows:
+|Parameter					| Value   |
+|:-----:|:-----------------:|
+| Epochs| 35|
+| batch size| 150|
+| learning rate| 0.001|
+
+The weights were initialized with a normal truncated distribution, with *μ = 0* and *σ = 0.1*.
+The bias terms were all initialized as zeros.
 
 ####5. Describe the approach taken for finding a solution. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 The code for calculating the accuracy of the model is located in the ninth cell of the Ipython notebook.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+* training set accuracy of 99.3
+* validation set accuracy of 98.5
+* test set accuracy of 96.6
 
 If an iterative approach was chosen:
 * What was the first architecture that was tried and why was it chosen?
@@ -139,18 +175,29 @@ If a well known architecture was chosen:
 * How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
  
 
-###Test a Model on New Images
+##Test a Model on New Images
 
-####1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
-
-Here are five German traffic signs that I found on the web:
+I download a set of images from google street view, particularly from the intersection between untermainbrücke and mainkai in frankfurt, germany. Also I append to the set some pictures shared by our classmate Sonja Krause-Harder. 
+Here are some of the pictures taken:
 
 ![alt text][image4] ![alt text][image5] ![alt text][image6] 
 ![alt text][image7] ![alt text][image8]
 
-The first image might be difficult to classify because ...
+Then I cropped out 40 traffic signs. 
 
-####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. Identify where in your code predictions were made. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
+There are a couple of image I found peculiar and hard to identify.
+the first one comes from this picture:
+![alt text][image6] 
+
+As shown above, there are two signs of children crossing, but one is the flipped version of the official Sign. the training set, test set and validation set don't have any flipped version of the children crossing sign. therefore the model is prone to make a mistake here.
+
+The second image is the following:
+
+In this image, I don't even understand what does it mean, for me, it looks like a double negation no entry Sign, the interesting thing is that if you look at the center there is a Yield sign within the original Traffic Sign, so definitely the program will have troubles there.
+
+###Model's Predictions
+
+2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. Identify where in your code predictions were made. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
 The code for making predictions on my final model is located in the tenth cell of the Ipython notebook.
 
