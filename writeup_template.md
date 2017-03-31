@@ -1,12 +1,12 @@
-#**Traffic Sign Recognition** 
+# **Traffic Sign Recognition** 
 ---
 
 **Build a Traffic Sign Recognition Project**
 
 [TOC]
  
-##Goals
-The goals  of this project are the following:
+## Goals
+The goals of this project are the following:
 
 * Load the data set (see below for links to the project data set)
 * Explore, summarize and visualize the data set
@@ -18,7 +18,7 @@ The goals  of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/visualization.jpg "Visualization"
+[image1]: ./images_report/training_distribution.png "Training Distribution"
 [image2]: ./examples/grayscale.jpg "Grayscaling"
 [image3]: ./examples/random_noise.jpg "Random Noise"
 [image4]: ./examples/placeholder.png "Traffic Sign 1"
@@ -28,13 +28,13 @@ The goals  of this project are the following:
 [image8]: ./examples/placeholder.png "Traffic Sign 5"
 
 ---
-You're reading it! and here is a link to my [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
+Here is the link to my [project code](https://github.com/cfficaurzua/P2-SDCND/blob/master/Traffic_Sign_Classifier.ipynb)
 
-##Data Set Summary
+## Data Set Summary
 
 The code for this step is contained in the second code cell of the IPython notebook.  
 
-I used the *shape* method embedded in the numpy library, in order to get the sizes corresponding to the training set, test set and validation set. To get the number of classes, I used pandas, reading  the *signnames.csv* file and from there, extract the quantity of classes using the aforementioned *shape* function.
+I used the *shape* method embedded in the numpy library, in order to get the sizes corresponding to the training set, test set and validation set. To get the number of classes, I used *pandas*, reading  the *signnames.csv* file and from there, extract the quantity of classes using the aforementioned *shape* function.
 
 * The size of training set is 34799
 * The size of test set is 12630
