@@ -15,14 +15,13 @@ The goals of this project are the following:
 * Analyze the softmax probabilities of the new images
 * Summarize the results with a written report
 
-
 [//]: # (Image References)
 
 [image1]: ./images_report/training_distribution.png "Training Distribution"
 [image2]: ./images_report/raw_visualization.png "Raw_visualization"
 [image3]: ./images_report/augmentations_examples.png "Augmentations_examples"
 [image4]: ./images_report/augmented_data.png "Augmented_Data"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
+[image5]: ./images_report/balanced_training_distribution.png "Balanced Training Distribution"
 [image6]: ./examples/placeholder.png "Traffic Sign 3"
 [image7]: ./examples/placeholder.png "Traffic Sign 4"
 [image8]: ./examples/placeholder.png "Traffic Sign 5"
@@ -73,30 +72,29 @@ Here are some examples of what each function return.
 
 ![alt text][image3]
 
-
-
 The augmentation process (augment_data function) consists in randomly applying one of this functions to a random image from the training set, until each class, has been extended in a fix length (4000).
 Then the data is balanced choosing random images from the returned set from the previous function until each class has a fix length (4000) .
 
 Visualizing the new dataset:
-![alt text][image3]
+
+![alt text][image4]
 
 Following these two processes I get a nicer and bigger dataset distribution as shown bellow:
+![alt text][image5]
 
-![alt text][image1]
+## Preprocessing
 
-
-##Preprocessing
+The code for this step is contained in the 13th code cell of the IPython notebook.  
 In order to preprocess the data, the following sequence is applied:
 
- 1. **Enhance**: This step consists in enhance the details of a given image, I tried to copy the algorithm I usually used in Photoshop when I want to sharpen the edges without distorting the image.
+ 1. **Enhance**: This step consists in enhancing the details of a given image, I tried to copy what I do in Photoshop when I want to sharpen the edges without distorting the image.
 In photoshop the algorithm is presented as follows:
 
 	1. Duplicate the image in a different layer on top of the current one.
 	2. Apply a Highpass filter to the top layer
 	3. Apply a Linear light blend mode.
 
-I researched a little bit and find out that the  highpass filter is a is a convolution of the image plus an offset of 0.5. Also, The linear light blending mode consists in a weighted sum between a linear_dodge of the two stacked layers (A+B) , and a linear burn of the the two stacked layers (A+B)-1.
+I researched a little bit and find out that the highpass filter is a convolution of the image plus an offset of 0.5. Moreover, The linear light blending mode consists in a weighted sum between a linear dodge of the two stacked layers (A+B) , and a linear burn of the the two stacked layers (A+B)-1.
 linear light = W*(A+B)+(1-W)*((A+B)-1)
 Therefore the algorithm in python is the following:
 
@@ -108,9 +106,9 @@ Therefore the algorithm in python is the following:
 	6. Multiply the linear_burn results with the inverse of the weights
 	7. Sum the two multiplication results.
 
- 2. **Histogram equalization**:  Here a dynamic histogram equalization is perfomed in the intensity channel of the HSV colormap of the input image. I read that lot of people were using the YUV map, but then read that the YUV colormap is optimized to the human eye perception field, due to the fact that machines don't have a biased perceptionfield I chose the HSV map. I chose this technique, because some images were to dark and other were to bright, this method help to resolve that problem. The output returned is in HSV
- 3. **Normalization**: I applied a normalization step to each channel of the input image. I chose to normalize the data because the training process develops better when the data has a low variance and is centered in 0.
- 4. **Extract color information**: I researched that color doesn't contribute much to the final result in the trainning process, but for me, color is very important in traffic sign recognition, so I try to sum up the color information in a flat array. To do this, the input image is divided into n divisions and then a histogram is perfom in the hue channel of each division. the output is then concatenated. This will be used as an input to the fully connected layer of the neural network.
+ 2. **Histogram equalization**:  Here a dynamic histogram equalization is perfomed in the intensity channel of the HSV colormap of the input image. I read that a lot of people were using the YUV map, but then read that the YUV colormap is optimized to the human eye perception field, due to the fact that machines don't have a biased perception field, I have chosen the HSV map. I opt for this technique, because some images were to dark and other were to bright, this method help to resolve that problem. The output returned is in HSV
+ 3. **Normalization**: I applied a normalization step to each channel of the input image. I chose to normalize the data because the training process develops better when the data has a low variance, the output range goes from 0.1 to 0.9.
+ 4. **Extract color information**: I researched that color doesn't contribute much to the final result in the trainning process, but for me, color is very important in traffic sign recognition, so I try to sum up the color information in a flat array. To do this, the input image is divided into *n* divisions and then a histogram is perfom in the hue channel of each division. the output is finally concatenated. This will be used as an input to the fully connected layer of the neural network.
  
 
 ## Model Architecutre
@@ -122,27 +120,27 @@ For the first set of layers, each layer consisted in a sequence of a convolution
 For the second set of layers, receive as an input the given 
 y final model consisted of the following layers:
 
-|TAG  						| Layer   |Input 				  	|     Description		| 
-|:-----:|:-----------------:|:-------:|:-----------------------:|:---------------------:|
-| I1	| Input         	|-		| 32x32x1 V channel of HSV image	 				|
-| I2 	| Input         	|-		| 1x96 Histogram Color Information					|  
-| L1.1	| Convolution 5x5 	|I1		| 1x1 stride, same padding, outputs 32x32x32		|
-| L1.2  | RELU				|L1.1	|-													|
-| L1.3  | Max pooling		|L1.2	| 2x2 stride,  outputs 16x16x32						|
-| L1.4  | Dropout			|L1.3	|keep probability = 0.9								|
-| L2.1  | Convolution 5x5  	|L1.4	| 1x1 stride, same padding, outputs 16x16x64 		|
-| l2.2  | RELU				|L2.1	|													|
-| l2.3  | Max pooling	    |L2.2	| 2x2 stride,  outputs 16x16x32						|
-| l2.4  | Dropout			|L2.3	|keep probability = 0.8								|
-| l3.1  | Convolution 5x5 	|L2.4	| 1x1 stride, same padding, outputs 16x16x64 		|
-| l3.2 	| RELU				|L3.1	|-													|
-| l3.3  | Max pooling	    |L3.2 	| 2x2 stride,  outputs 16x16x32						|
-| l3.4	| Dropout			|L3.2	|keep probability = 0.5								|
-| l4.1	| Concatenate		|L1.4, l2.4,l3.4, I2	|-									|
-| l4.2	| Fully Connected Layer|L4.1|3680x1024-											|
-| l4.3  | RELU				|L2.1	|													|
-| l4.4	| Dropout			|L3.2	|keep probability = 0.1								|
-| logits| Fully Connected Layer|L4.1|3680x1024-											|
+|TAG  	| Layer   		|Input 			|     Description					| 
+|:-----:|:---------------------:|:---------------------:|:-----------------------------------------------------:|
+| I1	| Input         	|-			| 32x32x1 V channel of HSV image	 		|
+| I2 	| Input         	|-			| 1x96 Histogram Color Information			|  
+| L1.1	| Convolution 5x5 	|I1			| 1x1 stride, same padding, outputs 32x32x32		|
+| L1.2  | RELU			|L1.1			|-							|
+| L1.3  | Max pooling		|L1.2			| 2x2 stride,  outputs 16x16x32				|
+| L1.4  | Dropout		|L1.3			|keep probability = 0.9					|
+| L2.1  | Convolution 5x5  	|L1.4			| 1x1 stride, same padding, outputs 16x16x64 		|
+| l2.2  | RELU			|L2.1			|			-				|
+| l2.3  | Max pooling	    	|L2.2			| 2x2 stride,  outputs 16x16x32				|
+| l2.4  | Dropout		|L2.3			|keep probability = 0.8					|
+| l3.1  | Convolution 5x5 	|L2.4			| 1x1 stride, same padding, outputs 16x16x64 		|
+| l3.2 	| RELU			|L3.1			|-							|
+| l3.3  | Max pooling	    	|L3.2 			| 2x2 stride,  outputs 16x16x32				|
+| l3.4	| Dropout		|L3.2			|keep probability = 0.5					|
+| l4.1	| Concatenate		|L1.4, l2.4,l3.4, I2	|-							|
+| l4.2	| Fully Connected Layer	|L4.1			|3680x1024-						|
+| l4.3  | RELU			|L2.1			|							|
+| l4.4	| Dropout		|L3.2			|keep probability = 0.1					|
+| logits| Fully Connected Layer	|L4.1			|3680x1024-						|
 
 
 
