@@ -219,9 +219,7 @@ In this image, I don't even understand what does it mean, for me, it looks like 
 
 ### Model's Predictions
 
-The code for making predictions on my final model is located in the tenth cell of the Ipython notebook.
-
-The model correctly predicted 85% of the pictures taken.
+The model correctly predicted 85% of the pictures taken, a lot lower than the test set, but I included some images that were difficult even for a human to recognize, therefore the result is within expectation.
 
 Here are some results of the prediction, with the given certainty:
 
