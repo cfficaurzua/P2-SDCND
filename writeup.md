@@ -33,8 +33,9 @@ The goals of this project are the following:
 [image11]: ./images_report/predictions1.PNG "predictions"
 [image12]: ./images_report/wrong_predictions.PNG "wrong_predicitons"
 [image13]: ./images_report/no_entry_wrong.PNG "no_entry_wrong"
-[image14]: ./images_report/30_predictions.PNG "30_mislabel"
-[image15]: ./images_report/network_activations.PNG "Network activations"
+[image14]: ./images_report/narrows_on_right_wrong.PNG "no_entry_wrong"
+[image15]: ./images_report/30_predictions.PNG "30_mislabel"
+[image16]: ./images_report/network_activations.PNG "Network activations"
 
 ---
 
@@ -169,7 +170,7 @@ the parameters chosen are as follows:
 |:-------------:|:-------------:|:---------------------:|
 | μ (mu)	| 0		|weights Initialization	|
 | σ (sigma)	| 0.1		|weights Initialization	|
-| Epochs	| 35		|Training		|
+| Epochs	| 64		|Training		|
 | Batch size	| 150		|Training		|
 | learning rate	| 0.001		|Training		|
 | β (beta)	| 0.01		|L2 regularization	|
@@ -235,19 +236,21 @@ but the correct label still appears within the top 5 probabilities, in the third
 
 Regarding to the *no entry* sign, as shown below, the model did not succeeded, instead of looking at the general picture, it focus in the unintended yield sign that appears at the centre.
 
+![alt text][image13]
+
 The model has a misconception of the *Road narrows on the right* Sign, mislabeling with the *children crossing* Sign
 
-![alt text][image13]
+![alt text][image15]
 
 Lastly the model finds it, sometimes, hard to differentiate between the *speed limit (30 km/h)*  and *speed limit (30 km/h)*
 
-![alt text][image14]
+![alt text][image16]
 
 ## Neurons Activations
 
 To get an insight of what the neurons are actually viewing, I use the function provided to plot the activations when a giving set of pictures is given, using the *speed limit (30 km/h)*, the output of the activation in each feature for the first layer is shown below:
 
-![alt text][image14]
+![alt text][image17]
 
 It can be seen that some featuremaps (8, 12, 21) focus in the numbers given as expected, while other features (18, 14) focus more on unrelated aspects of the picture like the background, this will produce some overfitting.
 
