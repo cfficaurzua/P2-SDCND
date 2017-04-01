@@ -30,7 +30,11 @@ The goals of this project are the following:
 [image8]: ./raw_german_street/20170319_135216.jpg "shared dataset"
 [image9]: ./raw_german_street/20170319_134041.jpg "shared dataset"
 [image10]: ./raw_german_street/20170319_135255.jpg "shared dataset"
-
+[image11]: ./images_report/predictions1.PNG "predictions"
+[image12]: ./images_report/wrong_predictions.PNG "wrong_predicitons"
+[image13]: ./images_report/no_entry_wrong.PNG "no_entry_wrong"
+[image14]: ./images_report/30_predictions.PNG "30_mislabel"
+[image15]: ./images_report/network_activations.PNG "Network activations"
 
 ---
 
@@ -183,21 +187,12 @@ Sometines when I use keep probabilities too low, it failed completely to train. 
 At first I started to train with 10 EPOCHS, then as I moved from my local pc to an AWS gpu service I increase the EPOCHS to 100. Finally as I achieved that the training occur a little faster, threrefore I reduced the number of epochs to 35.
 The final result took around ~60-90 min to train. + ~20 minutes to augment the dataset and ~10 to preprocess the data.
 
-Througout the project the best results I recordered individually for every set were:
-
-* training set accuracy of 100.0
-* validation set accuracy of 98.6
-* test set accuracy of 97.3
-
 My final model results were:
-* training set accuracy of 98.0
-* validation set accuracy of 98.5
-* test set accuracy of 96.2
+* training set accuracy of 99.0%
+* validation set accuracy of 99.0%
+* test set accuracy of 96.7%
 
 ![alt text][image6]
-
-cyan: training
-orange: validation
 
 ## Test a Model on New Images
 
@@ -225,31 +220,39 @@ In this image, I don't even understand what does it mean, for me, it looks like 
 
 The code for making predictions on my final model is located in the tenth cell of the Ipython notebook.
 
-Here are the results of the prediction:
+The model correctly predicted 85% of the pictures taken.
 
-| Image			        |     Prediction	        	| 
-|:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   				| 
-| U-turn     			| U-turn 				|
-| Yield				| Yield					|
-| 100 km/h	      		| Bumpy Road				|
-| Slippery Road			| Slippery Road      			|
+Here are some results of the prediction, with the given certainty:
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+![alt text][image11]
 
-####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction and identify where in your code softmax probabilities were outputted. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
+The model seems to be very confident in the predictions it made, giving correct results for most of the Traffic signs
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+Yet, as expected, the model failed to recognize the flipped version of the children crossing sign.
+but the correct label still appears within the top 5 probabilities, in the third position to be precise.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+![alt text][image12]
 
-| Probability         	|     Prediction	        		| 
-|:---------------------:|:---------------------------------------------:| 
-| .60       		| Stop sign   					| 
-| .20     		| U-turn 					|
-| .05			| Yield						|
-| .04	      		| Bumpy Road					|
-| .01			| Slippery Road      				|
+Regarding to the *no entry* sign, as shown below, the model did not succeeded, instead of looking at the general picture, it focus in the unintended yield sign that appears at the centre.
 
+The model has a misconception of the *Road narrows on the right* Sign, mislabeling with the *children crossing* Sign
 
-For the second image ... 
+![alt text][image13]
+
+Lastly the model finds it, sometimes, hard to differentiate between the *speed limit (30 km/h)*  and *speed limit (30 km/h)*
+
+![alt text][image14]
+
+## Neurons Activations
+
+To get an insight of what the neurons are actually viewing, I use the function provided to plot the activations when a giving set of pictures is given, using the *speed limit (30 km/h)*, the output of the activation in each feature for the first layer is shown below:
+
+![alt text][image14]
+
+It can be seen that some featuremaps (8, 12, 21) focus in the numbers given as expected, while other features (18, 14) focus more on unrelated aspects of the picture like the background, this will produce some overfitting.
+
+## Conclusion
+
+In this project I could successfully load the data set, explore it and visualize it, apply functions in order to balance and augment the data to later apply preprocessing function to enhance and normalize the picture. 
+
+I was able to Design, train a test a model architecture that can recognize traffic signals with a accuracy of 99% in the validation set, then use the model to actually perform predictions on new images with confident results. Finally the probabilities were represented using bar graphs to understand where the model fails, and which sign are more likely to make mistakes when predicting.
