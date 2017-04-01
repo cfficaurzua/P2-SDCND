@@ -30,10 +30,11 @@ The goals of this project are the following:
 [image8]: ./raw_german_street/20170319_135216.jpg "shared dataset"
 [image9]: ./raw_german_street/20170319_134041.jpg "shared dataset"
 [image10]: ./raw_german_street/20170319_135255.jpg "shared dataset"
-[image11]: ./raw_german_street/predictions1.PNG "predictions"
-[image12]: ./raw_german_street/wrong_predictions.PNG "wrong_predicitons"
-[image13]: ./raw_german_street/no_entry_wrong.PNG "no_entry_wrong"
-
+[image11]: ./images_report/predictions1.PNG "predictions"
+[image12]: ./images_report/wrong_predictions.PNG "wrong_predicitons"
+[image13]: ./images_report/no_entry_wrong.PNG "no_entry_wrong"
+[image14]: ./images_report/30_predictions.PNG "30_mislabel"
+[image15]: ./images_report/network_activations.PNG "Network activations"
 
 ---
 
@@ -236,8 +237,22 @@ Regarding to the *no entry* sign, as shown below, the model did not succeeded, i
 
 The model has a misconception of the *Road narrows on the right* Sign, mislabeling with the *children crossing* Sign
 
-![alt text][image12]
-
-Lastly the model sometimes finds it hard to differentiate between the *speed limit (30 km/h)*  and *speed limit (30 km/h)*
-
 ![alt text][image13]
+
+Lastly the model finds it, sometimes, hard to differentiate between the *speed limit (30 km/h)*  and *speed limit (30 km/h)*
+
+![alt text][image14]
+
+## Neurons Activations
+
+To get an insight of what the neurons are actually viewing, I use the function provided to plot the activations when a giving set of pictures is given, using the *speed limit (30 km/h)*, the output of the activation in each feature for the first layer is shown below:
+
+![alt text][image14]
+
+It can be seen that some featuremaps (8, 12, 21) focus in the numbers given as expected, while other features (18, 14) focus more on unrelated aspects of the picture like the background, this will produce some overfitting.
+
+## Conclusion
+
+In this project I could successfully load the data set, explore it and visualize it, apply functions in order to balance and augment the data to later apply preprocessing function to enhance and normalize the picture. 
+
+I was able to Design, train a test a model architecture that can recognize traffic signals with a accuracy of 99% in the validation set, then use the model to actually perform predictions on new images with confident results. Finally the probabilities were represented using bar graphs to understand where the model fails, and which sign are more likely to make mistakes when predicting.
