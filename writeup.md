@@ -33,10 +33,9 @@ The goals of this project are the following:
 [image11]: ./images_report/predictions1.PNG "predictions"
 [image12]: ./images_report/wrong_predictions.PNG "wrong_predicitons"
 [image13]: ./images_report/no_entry_wrong.PNG "no_entry_wrong"
-[image14]: ./images_report/wrong_predictions2.PNG "30_mislabel"
-[image15]: ./images_report/narrows_on_right_wrong.PNG "no_entry_wrong"
-[image16]: ./images_report/network_activations.PNG "Network activations"
-[image17]: ./images_report/network_activations.PNG "Network activations"
+[image14]: ./images_report/narrows_on_right_wrong.PNG "no_entry_wrong"
+[image15]: ./images_report/wrong_predictions2.PNG "30_mislabel"
+[image16]: ./images_report/network_activations.png "Network activations"
 
 ---
 
@@ -241,17 +240,17 @@ Regarding to the *no entry* sign, as shown below, the model did not succeeded, i
 
 The model has a misconception of the *Road narrows on the right* Sign, mislabeling with the *children crossing* Sign
 
-![alt text][image15]
+![alt text][image14]
 
 Lastly the model finds it, sometimes, hard to differentiate between the *speed limit (30 km/h)*  and *speed limit (30 km/h)*
 
-![alt text][image16]
+![alt text][image15]
 
 ## Neurons Activations
 
 To get an insight of what the neurons are actually viewing, I use the function provided to plot the activations when a giving set of pictures is given, using the *speed limit (30 km/h)*, the output of the activation in each feature for the first layer is shown below:
 
-![alt text][image17]
+![alt text][image16]
 
 It can be seen that some featuremaps (8, 12, 21) focus in the numbers given as expected, while other features (18, 14) focus more on unrelated aspects of the picture like the background, this will produce some overfitting.
 
