@@ -31,8 +31,8 @@ The goals of this project are the following:
 [image9]: ./raw_german_street/20170319_134041.jpg "shared dataset"
 [image10]: ./raw_german_street/20170319_135255.jpg "shared dataset"
 [image11]: ./raw_german_street/predictions1.PNG "predictions"
-[image12]: ./raw_german_street/wrong_predictions.PNG "shared dataset"
-[image12]: ./raw_german_street/no_entry_wrong.PNG "shared dataset"
+[image12]: ./raw_german_street/wrong_predictions.PNG "wrong_predicitons"
+[image13]: ./raw_german_street/no_entry_wrong.PNG "no_entry_wrong"
 
 
 ---
