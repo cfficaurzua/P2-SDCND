@@ -186,7 +186,7 @@ Next I added more features to each layer, the result improve a little bit, but t
 Even though I included dropout, I was still getting some overfitting finally I achieve equal results in the training and validation set by lowering down the keep probability in the fully connected layer to .1 and put L2 regularization in both fully connected layers.
 Sometines when I use keep probabilities too low, it failed completely to train. getting results as low as 0.2%.
 At first I started to train with 10 EPOCHS, then as I moved from my local pc to an AWS gpu service I increase the EPOCHS to 100. Finally as I achieved that the training occur a little faster, threrefore I reduced the number of epochs to 35.
-The final result took around ~60-90 min to train. + ~20 minutes to augment the dataset and ~10 to preprocess the data.
+The final result took around ~150 min to train. + ~20 minutes to augment the dataset and ~10 to preprocess the data.
 
 My final model results were:
 * training set accuracy of 99.0%
