@@ -34,8 +34,9 @@ The goals of this project are the following:
 [image12]: ./images_report/wrong_predictions.PNG "wrong_predicitons"
 [image13]: ./images_report/no_entry_wrong.PNG "no_entry_wrong"
 [image14]: ./images_report/narrows_on_right_wrong.PNG "no_entry_wrong"
-[image15]: ./images_report/30_predictions.PNG "30_mislabel"
+[image15]: ./images_report/wrong_predictions2.PNG "30_mislabel"
 [image16]: ./images_report/network_activations.PNG "Network activations"
+[image17]: ./images_report/network_activations.PNG "Network activations"
 
 ---
 
